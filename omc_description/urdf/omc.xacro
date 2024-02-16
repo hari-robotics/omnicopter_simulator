@@ -1,0 +1,88 @@
+<?xml version="1.0" ?>
+<robot name="omc" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<xacro:include filename="$(find omc_description)/urdf/materials.xacro" />
+<xacro:include filename="$(find omc_description)/urdf/omc.trans" />
+<xacro:include filename="$(find omc_description)/urdf/omc.gazebo" />
+<xacro:include filename="$(find omc_description)/urdf/plugin.gazebo" />
+
+<!-- Xacro macros -->
+<xacro:property name="M_PI" value="3.141592653589793"/>
+<xacro:macro name="propeller_joint" params="index xyz rpy">
+  <joint name="propeller_joint_${index}" type="continuous">
+    <origin xyz="${xyz}" rpy="${rpy}"/>
+    <parent link="base_link"/>
+    <child link="actuator${index}"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+</xacro:macro>
+
+<xacro:macro name="propeller_link" params="index">
+  <link name="actuator${index}">
+    <inertial>
+      <origin xyz="0 0 0.005289" rpy="0 0 0"/>
+      <mass value="0.005"/>
+      <inertia ixx="2.207e-06" iyy="2.207e-06" izz="4.053e-06" ixy="0.0" iyz="-0.0" ixz="-0.0"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file://$(find omc_description)/meshes/propeller.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="silver"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file://$(find omc_description)/meshes/propeller.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+</xacro:macro>
+
+<!-- Link Define -->
+<link name="base_dummy"/>
+<link name="base_link">
+  <inertial>
+    <origin xyz="0 0 -0.012499993315127975" rpy="0 0 0"/>
+    <mass value="0.8688669624788753"/>
+    <inertia ixx="44721.376e-6" iyy="44720.890e-6" izz="46046.951e-6" ixy="0.425e-6" iyz="0.216e-6" ixz="9.454e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find omc_description)/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find omc_description)/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<xacro:propeller_link index="1"/>
+<xacro:propeller_link index="2"/>
+<xacro:propeller_link index="3"/>
+<xacro:propeller_link index="4"/>
+<xacro:propeller_link index="5"/>
+<xacro:propeller_link index="6"/>
+<xacro:propeller_link index="7"/>
+<xacro:propeller_link index="8"/>
+
+<!-- Joint Define -->
+<joint name="dummy_link" type="fixed">
+  <parent link="base_dummy"/>
+  <child link="base_link"/>
+</joint>
+<xacro:propeller_joint index="1" xyz="-0.134107 -0.133259 0.119816" rpy="0 2.1812814631414223 0.7818970122302891"/>
+<xacro:propeller_joint index="2" xyz="0.132404 0.133259 0.121696" rpy="0 2.191253316826451 -2.3526442298210966"/>
+<xacro:propeller_joint index="3" xyz="-0.134107 0.133259 0.119816" rpy="0 2.1812814631414223 -0.7818970122302891"/>
+<xacro:propeller_joint index="4" xyz="0.132404 -0.133259 0.121696" rpy="0 2.191253316826451 2.3526442298210966"/>
+<xacro:propeller_joint index="5" xyz="-0.132228 -0.133259 -0.146695" rpy="0 0.950339336763342 0.7889484237686968"/>
+<xacro:propeller_joint index="6" xyz="0.134283 0.133259 -0.144815" rpy="0 0.9603111904483705 -2.359695641359504"/>
+<xacro:propeller_joint index="7" xyz="-0.132228 0.133259 -0.146695" rpy="0 0.950339336763342 -0.7889484237686968"/>
+<xacro:propeller_joint index="8" xyz="0.134283 -0.133259 -0.144815" rpy="0 0.9603111904483705 2.359695641359504"/>
+</robot>

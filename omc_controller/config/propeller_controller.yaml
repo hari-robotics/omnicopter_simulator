@@ -1,0 +1,21 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 500  # Hz
+
+    velocity_controller:
+      type: velocity_controllers/JointGroupVelocityController
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+velocity_controller:
+  ros__parameters:
+    joints:
+      - propeller_joint_1
+      - propeller_joint_2
+      - propeller_joint_3
+      - propeller_joint_4
+      - propeller_joint_5
+      - propeller_joint_6
+      - propeller_joint_7
+      - propeller_joint_8

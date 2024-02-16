@@ -1,0 +1,6 @@
+# ROS 2
+**/__pycache__
+**/build
+**/install
+**/log
+**/.vscode

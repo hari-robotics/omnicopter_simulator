@@ -1,0 +1,150 @@
+<?xml version="1.0" ?>
+<robot name="omc" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<xacro:property name="C_RPM2RADPS" value="0.10471975511965977461542144610932"/>
+
+<!-- Config Controller -->
+<ros2_control name="GazeboSystem" type="system">
+  <hardware>
+    <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+  </hardware>
+  
+  <joint name="propeller_joint_1">
+    <command_interface name="velocity">
+      <param name="min">${-10000 * C_RPM2RADPS}</param>
+      <param name="max">${10000 * C_RPM2RADPS}</param>
+    </command_interface>
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+    <state_interface name="effort"/>
+  </joint>
+
+  <joint name="propeller_joint_2">
+    <command_interface name="velocity">
+      <param name="min">${-10000 * C_RPM2RADPS}</param>
+      <param name="max">${10000 * C_RPM2RADPS}</param>
+    </command_interface>
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+    <state_interface name="effort"/>
+  </joint>
+
+  <joint name="propeller_joint_3">
+    <command_interface name="velocity">
+      <param name="min">${-10000 * C_RPM2RADPS}</param>
+      <param name="max">${10000 * C_RPM2RADPS}</param>
+    </command_interface>
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+    <state_interface name="effort"/>
+  </joint>
+
+  <joint name="propeller_joint_4">
+    <command_interface name="velocity">
+      <param name="min">${-10000 * C_RPM2RADPS}</param>
+      <param name="max">${10000 * C_RPM2RADPS}</param>
+    </command_interface>
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+    <state_interface name="effort"/>
+  </joint>
+
+  <joint name="propeller_joint_5">
+    <command_interface name="velocity">
+      <param name="min">${-10000 * C_RPM2RADPS}</param>
+      <param name="max">${10000 * C_RPM2RADPS}</param>
+    </command_interface>
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+    <state_interface name="effort"/>
+  </joint>
+
+  <joint name="propeller_joint_6">
+    <command_interface name="velocity">
+      <param name="min">${-10000 * C_RPM2RADPS}</param>
+      <param name="max">${10000 * C_RPM2RADPS}</param>
+    </command_interface>
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+    <state_interface name="effort"/>
+  </joint>
+
+  <joint name="propeller_joint_7">
+    <command_interface name="velocity">
+      <param name="min">${-10000 * C_RPM2RADPS}</param>
+      <param name="max">${10000 * C_RPM2RADPS}</param>
+    </command_interface>
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+    <state_interface name="effort"/>
+  </joint>
+
+  <joint name="propeller_joint_8">
+    <command_interface name="velocity">
+      <param name="min">${-10000 * C_RPM2RADPS}</param>
+      <param name="max">${10000 * C_RPM2RADPS}</param>
+    </command_interface>
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+    <state_interface name="effort"/>
+  </joint>
+</ros2_control>
+
+<!-- <gazebo reference="propeller_joint_1">
+  <provideFeedback>true</provideFeedback>
+</gazebo> -->
+
+<!-- IMU plugin for base link -->
+<gazebo reference="base_link">
+  <gravity>true</gravity>
+  <sensor name="imu_sensor" type="imu">
+    <always_on>true</always_on>
+    <update_rate>200</update_rate>
+    <visualize>true</visualize>
+    <topic>__default_topic__</topic>
+    <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+      <ros>
+        <namespace>/omc</namespace>
+        <remapping>~/out:=imu</remapping>
+      </ros>
+      <topicName>imu</topicName>
+      <bodyName>base_link</bodyName>
+      <updateRateHZ>200.0</updateRateHZ>
+      <gaussianNoise>0.0</gaussianNoise>
+      <xyzOffset>0 0 0</xyzOffset>
+      <rpyOffset>0 0 0</rpyOffset>
+      <frameName>imu_link</frameName>
+    </plugin>
+    <pose>0 0 0 0 0 0</pose>
+  </sensor>
+</gazebo>
+
+<gazebo>
+  <plugin name="gazebo_ros2_control" filename="libgazebo_ros2_control.so">
+    <robot_param>robot_description</robot_param>
+    <robot_param_node>robot_state_publisher</robot_param_node>
+    <parameters>$(find omc_controller)/config/propeller_controller.yaml</parameters>
+  </plugin>
+  <plugin name="propeller_emulation" filename="libgz_propeller_plugins.so">
+    <joint name="propeller_joint_1" direction="cw" torque_constant="0.55e-6" force_constant="2.74e-5" />
+    <joint name="propeller_joint_2" direction="cw" torque_constant="0.55e-6" force_constant="2.74e-5" />
+    <joint name="propeller_joint_3" direction="ccw" torque_constant="0.55e-6" force_constant="2.74e-5" />
+    <joint name="propeller_joint_4" direction="ccw" torque_constant="0.55e-6" force_constant="2.74e-5" />
+    <joint name="propeller_joint_5" direction="ccw" torque_constant="0.55e-6" force_constant="2.74e-5" />
+    <joint name="propeller_joint_6" direction="ccw" torque_constant="0.55e-6" force_constant="2.74e-5" />
+    <joint name="propeller_joint_7" direction="cw" torque_constant="0.55e-6" force_constant="2.74e-5" />
+    <joint name="propeller_joint_8" direction="cw" torque_constant="0.55e-6" force_constant="2.74e-5" />
+  </plugin>
+  <plugin name="p3d_odom" filename="libgazebo_ros_p3d.so">
+    <ros>
+        <namespace>omc</namespace>
+        <remapping>odom:=odom</remapping>
+    </ros>
+    <frame_name>world</frame_name>
+    <body_name>base_dummy</body_name>
+    <update_rate>100.0</update_rate>
+    <gaussian_noise>0.0</gaussian_noise>
+  </plugin>
+</gazebo>
+
+</robot>
